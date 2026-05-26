@@ -1,0 +1,16 @@
+<Solution>
+  <Folder Name="/src/" />
+  <Folder Name="/src/Core/">
+    <Project Path="src/MovimentosManuais.Application/MovimentosManuais.Application.csproj" />
+    <Project Path="src/MovimentosManuais.Domain/MovimentosManuais.Domain.csproj" />
+    <Project Path="src/MovimentosManuais.Infrastructure/MovimentosManuais.Infrastructure.csproj" />
+  </Folder>
+  <Folder Name="/src/Services/">
+    <Project Path="src/MovimentosManuais.Api/MovimentosManuais.Api.csproj" />
+  </Folder>
+  <Folder Name="/tests/" />
+  <Folder Name="/tests/UnitTests/">
+    <Project Path="tests/MovimentosManuais.Application.Tests/MovimentosManuais.Application.Tests.csproj" />
+    <Project Path="tests/MovimentosManuais.Domain.Tests/MovimentosManuais.Domain.Tests.csproj" />
+  </Folder>
+</Solution>

@@ -27,20 +27,7 @@ public sealed class ProdutoCosif : Entity
         string? codigoClassificacao,
         StatusRegistro? status)
     {
-        if (string.IsNullOrWhiteSpace(codigoProduto))
-            throw new DomainException("O código do produto é obrigatório.");
-
-        if (codigoProduto.Length > 4)
-            throw new DomainException("O código do produto deve possuir no máximo 4 caracteres.");
-
-        if (string.IsNullOrWhiteSpace(codigoCosif))
-            throw new DomainException("O código COSIF é obrigatório.");
-
-        if (codigoCosif.Length > 11)
-            throw new DomainException("O código COSIF deve possuir no máximo 11 caracteres.");
-
-        if (!string.IsNullOrWhiteSpace(codigoClassificacao) && codigoClassificacao.Length > 6)
-            throw new DomainException("O código de classificação deve possuir no máximo 6 caracteres.");
+        Validar(codigoProduto, codigoCosif, codigoClassificacao);
 
         CodigoProduto = codigoProduto;
         CodigoCosif = codigoCosif;
@@ -51,5 +38,20 @@ public sealed class ProdutoCosif : Entity
     public bool EstaAtivo()
     {
         return Status == StatusRegistro.Ativo;
+    }
+
+    private static void Validar(
+        string codigoProduto,
+        string codigoCosif,
+        string? codigoClassificacao)
+    {
+        DomainValidation.NotNullOrWhiteSpace(codigoProduto, "O código do produto é obrigatório.");
+        DomainValidation.MaxLength(codigoProduto, 4, "O código do produto deve possuir no máximo 4 caracteres.");
+
+        DomainValidation.NotNullOrWhiteSpace(codigoCosif, "O código COSIF é obrigatório.");
+        DomainValidation.MaxLength(codigoCosif, 11, "O código COSIF deve possuir no máximo 11 caracteres.");
+
+        DomainValidation.NotNullOrWhiteSpace(codigoClassificacao, "O código de classificação é obrigatório.");
+        DomainValidation.MaxLength(codigoClassificacao, 6, "O código de classificação deve possuir no máximo 6 caracteres.");
     }
 }

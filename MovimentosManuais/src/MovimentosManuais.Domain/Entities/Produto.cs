@@ -19,14 +19,7 @@ public sealed class Produto : Entity
 
     public Produto(string codigoProduto, string? descricao, StatusRegistro? status)
     {
-        if (string.IsNullOrWhiteSpace(codigoProduto))
-            throw new DomainException("O código do produto é obrigatório.");
-
-        if (codigoProduto.Length > 4)
-            throw new DomainException("O código do produto deve possuir no máximo 4 caracteres.");
-
-        if (!string.IsNullOrWhiteSpace(descricao) && descricao.Length > 30)
-            throw new DomainException("A descrição do produto deve possuir no máximo 30 caracteres.");
+        Validar(codigoProduto, descricao);
 
         CodigoProduto = codigoProduto;
         Descricao = descricao;
@@ -36,5 +29,14 @@ public sealed class Produto : Entity
     public bool EstaAtivo()
     {
         return Status == StatusRegistro.Ativo;
+    }
+
+    private static void Validar(string codigoProduto, string? descricao)
+    {
+        DomainValidation.NotNullOrWhiteSpace(codigoProduto, "O código do produto é obrigatório.");
+        DomainValidation.MaxLength(codigoProduto, 4, "O código do produto deve possuir no máximo 4 caracteres.");
+
+        DomainValidation.NotNullOrWhiteSpace(descricao, "A descrição é obrigatória.");
+        DomainValidation.MaxLength(descricao, 30, "A descrição do produto deve possuir no máximo 30 caracteres.");
     }
 }

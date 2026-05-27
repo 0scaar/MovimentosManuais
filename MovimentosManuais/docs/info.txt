@@ -9,7 +9,6 @@ MovimentosManuais.Application
 MovimentosManuais.Domain
 - Entidades, regras de domínio, interfaces de repositórios e read models.
 
-
 MovimentosManuais.Infrastructure
 - EF Core, migrations, DbContext, repositories e acesso ao SQL Server. 
 - EF Core é usado para comandos; Dapper ficou separado para consultas com stored procedure.

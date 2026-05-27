@@ -1,0 +1,32 @@
+A solução back-end segue uma arquitetura clean:
+
+MovimentosManuais.Api
+- API ASP.NET Core, controllers, Swagger, middlewares, CORS e startup da aplicação.
+
+MovimentosManuais.Application
+- Casos de uso, DTOs, validações e services. Exemplo: MovimentoManualService.
+
+MovimentosManuais.Domain
+- Entidades, regras de domínio, interfaces de repositórios e read models.
+
+
+MovimentosManuais.Infrastructure
+- EF Core, migrations, DbContext, repositories e acesso ao SQL Server. 
+- EF Core é usado para comandos; Dapper ficou separado para consultas com stored procedure.
+
+movimentos-manuais-web
+- Frontend Angular da tela de Movimentos Manuais.
+
+MovimentosManuais.AppHost
+- Projeto .NET Aspire que orquestra API, Angular e SQL Server.
+- O Aspire vai subir: SQL Server em container Docker, API movimentos-manuais-api, Angular movimentos-manuais-web e Dashboard do Aspire
+
+
+* Dados do banco de dados:
+
+Host: 127.0.0.1
+Porta: 1433
+Database: MovimentosManuaisDb
+Usuário: sa
+Senha: Candidato123@
+TrustServerCertificate: True

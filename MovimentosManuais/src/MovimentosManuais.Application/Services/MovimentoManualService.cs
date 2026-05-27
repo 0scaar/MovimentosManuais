@@ -81,71 +81,60 @@ public sealed class MovimentoManualService : IMovimentoManualService
     }
 
     public async Task<MovimentoManualResponse> EditarAsync(
-    EditarMovimentoManualRequest request,
-    CancellationToken cancellationToken)
+        short mes,
+        short ano,
+        int numeroLancamento,
+        string codigoProduto,
+        string codigoCosif,
+        EditarMovimentoManualRequest request,
+        CancellationToken cancellationToken)
     {
-        try
-        {
-            var movimentoManual = await _movimentoManualRepository.ObterPorChaveAsync(
-            request.Mes,
-            request.Ano,
-            request.NumeroLancamento,
+        var movimentoManual = await _movimentoManualRepository.ObterPorChaveCompletaAsync(
+            mes,
+            ano,
+            numeroLancamento,
+            codigoProduto,
+            codigoCosif,
             cancellationToken);
 
-            if (movimentoManual is null)
-                throw new DomainException("Movimento manual não encontrado.");
+        if (movimentoManual is null)
+            throw new DomainException("Movimento manual não encontrado para a chave informada.");
 
-            var produtoCosifExiste = await _produtoCosifRepository.ExisteAsync(
-                request.CodigoProduto,
-                request.CodigoCosif,
-                cancellationToken);
+        movimentoManual.Editar(
+            request.Valor,
+            request.Descricao,
+            request.CodigoUsuario);
 
-            if (!produtoCosifExiste)
-                throw new DomainException("Produto COSIF não encontrado.");
+        await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-            movimentoManual.Editar(
-                request.CodigoProduto,
-                request.CodigoCosif,
-                request.Valor,
-                request.Descricao,
-                request.CodigoUsuario);
-
-            await _unitOfWork.SaveChangesAsync(cancellationToken);
-
-            return new MovimentoManualResponse(
-                movimentoManual.Mes,
-                movimentoManual.Ano,
-                movimentoManual.NumeroLancamento,
-                movimentoManual.CodigoProduto,
-                null,
-                movimentoManual.CodigoCosif,
-                null,
-                movimentoManual.Valor,
-                movimentoManual.Descricao,
-                movimentoManual.DataMovimento,
-                movimentoManual.CodigoUsuario);
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"Erro: {ex.Message}");
-            Console.WriteLine($"StackTrace: {ex.StackTrace}");
-            return default;
-        }
-        
+        return new MovimentoManualResponse(
+            movimentoManual.Mes,
+            movimentoManual.Ano,
+            movimentoManual.NumeroLancamento,
+            movimentoManual.CodigoProduto,
+            null,
+            movimentoManual.CodigoCosif,
+            null,
+            movimentoManual.Valor,
+            movimentoManual.Descricao,
+            movimentoManual.DataMovimento,
+            movimentoManual.CodigoUsuario);
     }
 
     public async Task ExcluirAsync(
     ExcluirMovimentoManualRequest request,
     CancellationToken cancellationToken)
     {
-        var movimentoManual = await _movimentoManualRepository.ObterPorChaveAsync(
+        var movimentoManual = await _movimentoManualRepository.ObterPorChaveCompletaAsync(
             request.Mes,
             request.Ano,
             request.NumeroLancamento,
+            request.CodigoProduto,
+            request.CodigoCosif,
             cancellationToken);
 
         if (movimentoManual is null)
-            throw new DomainException("Movimento manual não encontrado.");
+            throw new DomainException("Movimento manual não encontrado para a chave informada.");
 
         _movimentoManualRepository.Remover(movimentoManual);
 

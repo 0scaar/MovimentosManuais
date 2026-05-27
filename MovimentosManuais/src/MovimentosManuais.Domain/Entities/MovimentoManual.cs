@@ -72,16 +72,12 @@ public sealed class MovimentoManual : Entity
     }
 
     public void Editar(
-    string codigoProduto,
-    string codigoCosif,
     decimal valor,
     string descricao,
     string codigoUsuario)
     {
-        Validar(Mes, Ano, NumeroLancamento, codigoProduto, codigoCosif, valor, descricao, codigoUsuario);
+        Validar(Mes, Ano, NumeroLancamento, CodigoProduto, CodigoCosif, valor, descricao, codigoUsuario);
 
-        CodigoProduto = codigoProduto;
-        CodigoCosif = codigoCosif;
         Valor = valor;
         Descricao = descricao;
         CodigoUsuario = codigoUsuario;

@@ -128,36 +128,43 @@ public sealed class MovimentoManualServiceTests
     [Fact]
     public async Task EditarAsync_DeveriaEditarMovimentoManual_QuandoMovimentoExistir()
     {
+        const short mes = 5;
+        const short ano = 2026;
+        const int numeroLancamento = 1;
+        const string codigoProduto = "0001";
+        const string codigoCosif = "12345678901";
         var request = EditarMovimentoManualRequestBuilder.Novo().Build();
 
         var movimento = MovimentoManual.Criar(
-            request.Mes,
-            request.Ano,
-            request.NumeroLancamento,
-            request.CodigoProduto,
-            request.CodigoCosif,
+            mes,
+            ano,
+            numeroLancamento,
+            codigoProduto,
+            codigoCosif,
             100,
             "Descrição antiga",
             request.CodigoUsuario);
 
         _movimentoManualRepositoryMock
-            .Setup(x => x.ObterPorChaveAsync(
-                request.Mes,
-                request.Ano,
-                request.NumeroLancamento,
+            .Setup(x => x.ObterPorChaveCompletaAsync(
+                mes,
+                ano,
+                numeroLancamento,
+                codigoProduto,
+                codigoCosif,
                 It.IsAny<CancellationToken>()))
             .ReturnsAsync(movimento);
 
-        _produtoCosifRepositoryMock
-            .Setup(x => x.ExisteAsync(
-                request.CodigoProduto,
-                request.CodigoCosif,
-                It.IsAny<CancellationToken>()))
-            .ReturnsAsync(true);
-
         var service = CriarService();
 
-        var response = await service.EditarAsync(request, CancellationToken.None);
+        var response = await service.EditarAsync(
+            mes,
+            ano,
+            numeroLancamento,
+            codigoProduto,
+            codigoCosif,
+            request,
+            CancellationToken.None);
 
         response.Valor.Should().Be(request.Valor);
         response.Descricao.Should().Be(request.Descricao);
@@ -170,23 +177,37 @@ public sealed class MovimentoManualServiceTests
     [Fact]
     public async Task EditarAsync_DeveriaFalhar_QuandoMovimentoNaoExistir()
     {
+        const short mes = 5;
+        const short ano = 2026;
+        const int numeroLancamento = 1;
+        const string codigoProduto = "0001";
+        const string codigoCosif = "12345678901";
         var request = EditarMovimentoManualRequestBuilder.Novo().Build();
 
         _movimentoManualRepositoryMock
-            .Setup(x => x.ObterPorChaveAsync(
-                request.Mes,
-                request.Ano,
-                request.NumeroLancamento,
+            .Setup(x => x.ObterPorChaveCompletaAsync(
+                mes,
+                ano,
+                numeroLancamento,
+                codigoProduto,
+                codigoCosif,
                 It.IsAny<CancellationToken>()))
             .ReturnsAsync((MovimentoManual?)null);
 
         var service = CriarService();
 
-        var act = async () => await service.EditarAsync(request, CancellationToken.None);
+        var act = async () => await service.EditarAsync(
+            mes,
+            ano,
+            numeroLancamento,
+            codigoProduto,
+            codigoCosif,
+            request,
+            CancellationToken.None);
 
         await act.Should()
             .ThrowAsync<DomainException>()
-            .WithMessage("Movimento manual não encontrado.");
+            .WithMessage("Movimento manual não encontrado para a chave informada.");
 
         _unitOfWorkMock.Verify(
             x => x.SaveChangesAsync(It.IsAny<CancellationToken>()),
@@ -196,7 +217,7 @@ public sealed class MovimentoManualServiceTests
     [Fact]
     public async Task ExcluirAsync_DeveriaExcluirMovimentoManual_QuandoMovimentoExistir()
     {
-        var request = new ExcluirMovimentoManualRequest(5, 2026, 1);
+        var request = new ExcluirMovimentoManualRequest(5, 2026, 1, "0001", "12345678901");
 
         var movimento = MovimentoManual.Criar(
             5,
@@ -209,10 +230,12 @@ public sealed class MovimentoManualServiceTests
             "usuario");
 
         _movimentoManualRepositoryMock
-            .Setup(x => x.ObterPorChaveAsync(
+            .Setup(x => x.ObterPorChaveCompletaAsync(
                 request.Mes,
                 request.Ano,
                 request.NumeroLancamento,
+                request.CodigoProduto,
+                request.CodigoCosif,
                 It.IsAny<CancellationToken>()))
             .ReturnsAsync(movimento);
 
@@ -232,13 +255,15 @@ public sealed class MovimentoManualServiceTests
     [Fact]
     public async Task ExcluirAsync_DeveriaFalhar_QuandoMovimentoNaoExistir()
     {
-        var request = new ExcluirMovimentoManualRequest(5, 2026, 1);
+        var request = new ExcluirMovimentoManualRequest(5, 2026, 1, "0001", "12345678901");
 
         _movimentoManualRepositoryMock
-            .Setup(x => x.ObterPorChaveAsync(
+            .Setup(x => x.ObterPorChaveCompletaAsync(
                 request.Mes,
                 request.Ano,
                 request.NumeroLancamento,
+                request.CodigoProduto,
+                request.CodigoCosif,
                 It.IsAny<CancellationToken>()))
             .ReturnsAsync((MovimentoManual?)null);
 
@@ -248,7 +273,7 @@ public sealed class MovimentoManualServiceTests
 
         await act.Should()
             .ThrowAsync<DomainException>()
-            .WithMessage("Movimento manual não encontrado.");
+            .WithMessage("Movimento manual não encontrado para a chave informada.");
 
         _movimentoManualRepositoryMock.Verify(
             x => x.Remover(It.IsAny<MovimentoManual>()),

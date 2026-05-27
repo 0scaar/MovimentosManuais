@@ -54,6 +54,24 @@ public sealed class MovimentoManualRepository : IMovimentoManualRepository
                 cancellationToken);
     }
 
+    public Task<MovimentoManual?> ObterPorChaveCompletaAsync(
+        short mes,
+        short ano,
+        int numeroLancamento,
+        string codigoProduto,
+        string codigoCosif,
+        CancellationToken cancellationToken)
+    {
+        return _context.MovimentosManuais
+            .FirstOrDefaultAsync(x =>
+                x.Mes == mes &&
+                x.Ano == ano &&
+                x.NumeroLancamento == numeroLancamento &&
+                x.CodigoProduto == codigoProduto &&
+                x.CodigoCosif == codigoCosif,
+                cancellationToken);
+    }
+
     public async Task AdicionarAsync(
         MovimentoManual movimentoManual,
         CancellationToken cancellationToken)

@@ -9,6 +9,11 @@ public interface IMovimentoManualService
         CancellationToken cancellationToken);
 
     Task<MovimentoManualResponse> EditarAsync(
+        short mes,
+        short ano,
+        int numeroLancamento,
+        string codigoProduto,
+        string codigoCosif,
         EditarMovimentoManualRequest request,
         CancellationToken cancellationToken);
 

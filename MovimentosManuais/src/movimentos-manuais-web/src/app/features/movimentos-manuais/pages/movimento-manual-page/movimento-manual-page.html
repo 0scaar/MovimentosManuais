@@ -28,12 +28,15 @@
 
           <div class="col-md-3">
             <label class="form-label">Produto</label>
-            <select class="form-select" formControlName="codigoProduto">
-              <option value="">Selecione</option>
+            <select class="form-select" formControlName="codigoProduto" [disabled]="carregandoProdutos">
+              <option value="">{{ carregandoProdutos ? 'Carregando...' : 'Selecione' }}</option>
               <option *ngFor="let produto of produtos" [value]="produto.codigoProduto">
                 {{ produto.codigoProduto }} - {{ produto.descricao }}
               </option>
             </select>
+            <small class="text-danger" *ngIf="erroProdutos">
+              {{ erroProdutos }}
+            </small>
             <small class="text-danger" *ngIf="campoInvalido('codigoProduto')">
               Produto é obrigatório.
             </small>
@@ -41,12 +44,29 @@
 
           <div class="col-md-3">
             <label class="form-label">COSIF</label>
-            <select class="form-select" formControlName="codigoCosif">
-              <option value="">Selecione</option>
+            <select class="form-select"
+                    formControlName="codigoCosif"
+                    [disabled]="!form.get('codigoProduto')?.value || carregandoCosifs">
+              <option value="">
+                {{
+                  !form.get('codigoProduto')?.value
+                    ? 'Selecione um produto'
+                    : carregandoCosifs
+                      ? 'Carregando...'
+                      : 'Selecione'
+                }}
+              </option>
               <option *ngFor="let cosif of cosifs" [value]="cosif.codigoCosif">
                 {{ cosif.codigoCosif }} - {{ cosif.codigoClassificacao }}
               </option>
             </select>
+            <small class="text-danger" *ngIf="erroCosifs">
+              {{ erroCosifs }}
+            </small>
+            <small class="text-muted"
+                   *ngIf="!carregandoCosifs && !erroCosifs && form.get('codigoProduto')?.value && cosifs.length === 0">
+              Nenhum COSIF ativo para o produto selecionado.
+            </small>
             <small class="text-danger" *ngIf="campoInvalido('codigoCosif')">
               COSIF é obrigatório.
             </small>
@@ -63,11 +83,6 @@
           <div class="col-md-2" *ngIf="editando">
             <label class="form-label">Nº Lançamento</label>
             <input type="number" class="form-control" formControlName="numeroLancamento">
-          </div>
-
-          <div class="col-md-4">
-            <label class="form-label">Usuário</label>
-            <input type="text" class="form-control" formControlName="codigoUsuario">
           </div>
 
           <div class="col-md-12">
@@ -104,7 +119,11 @@
         Carregando movimentos...
       </div>
 
-      <table class="table table-striped table-hover align-middle" *ngIf="!carregando">
+      <div *ngIf="!carregando && erroMovimentos" class="alert alert-danger">
+        {{ erroMovimentos }}
+      </div>
+
+      <table class="table table-striped table-hover align-middle" *ngIf="!carregando && !erroMovimentos">
         <thead class="table-dark">
           <tr>
             <th>Mês</th>

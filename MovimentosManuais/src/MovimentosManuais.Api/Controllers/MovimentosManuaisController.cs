@@ -37,39 +37,43 @@ public sealed class MovimentosManuaisController : ControllerBase
         return Created(string.Empty, movimento);
     }
 
-    [HttpPut("{mes:int}/{ano:int}/{numeroLancamento:int}")]
+    [HttpPut("{mes:int}/{ano:int}/{numeroLancamento:int}/{codigoProduto}/{codigoCosif}")]
     public async Task<IActionResult> EditarAsync(
         short mes,
         short ano,
         int numeroLancamento,
+        string codigoProduto,
+        string codigoCosif,
         [FromBody] EditarMovimentoManualRequest request,
         CancellationToken cancellationToken)
     {
-        var requestComChave = request with
-        {
-            Mes = mes,
-            Ano = ano,
-            NumeroLancamento = numeroLancamento
-        };
-
         var movimento = await _movimentoManualService.EditarAsync(
-            requestComChave,
+            mes,
+            ano,
+            numeroLancamento,
+            codigoProduto,
+            codigoCosif,
+            request,
             cancellationToken);
 
         return Ok(movimento);
     }
 
-    [HttpDelete("{mes:int}/{ano:int}/{numeroLancamento:int}")]
+    [HttpDelete("{mes:int}/{ano:int}/{numeroLancamento:int}/{codigoProduto}/{codigoCosif}")]
     public async Task<IActionResult> ExcluirAsync(
         short mes,
         short ano,
         int numeroLancamento,
+        string codigoProduto,
+        string codigoCosif,
         CancellationToken cancellationToken)
     {
         var request = new ExcluirMovimentoManualRequest(
             mes,
             ano,
-            numeroLancamento);
+            numeroLancamento,
+            codigoProduto,
+            codigoCosif);
 
         await _movimentoManualService.ExcluirAsync(
             request,

@@ -22,16 +22,25 @@ export class MovimentoManualService {
     return this.http.post<MovimentoManual>(this.apiUrl, request);
   }
 
-  editar(request: EditarMovimentoManualRequest): Observable<MovimentoManual> {
+  editar(
+    chave: Pick<MovimentoManual, 'mes' | 'ano' | 'numeroLancamento' | 'codigoProduto' | 'codigoCosif'>,
+    request: EditarMovimentoManualRequest
+  ): Observable<MovimentoManual> {
+    const codigoProduto = encodeURIComponent(chave.codigoProduto);
+    const codigoCosif = encodeURIComponent(chave.codigoCosif);
+
     return this.http.put<MovimentoManual>(
-      `${this.apiUrl}/${request.mes}/${request.ano}/${request.numeroLancamento}`,
+      `${this.apiUrl}/${chave.mes}/${chave.ano}/${chave.numeroLancamento}/${codigoProduto}/${codigoCosif}`,
       request
     );
   }
 
   excluir(movimento: MovimentoManual): Observable<void> {
+    const codigoProduto = encodeURIComponent(movimento.codigoProduto);
+    const codigoCosif = encodeURIComponent(movimento.codigoCosif);
+
     return this.http.delete<void>(
-      `${this.apiUrl}/${movimento.mes}/${movimento.ano}/${movimento.numeroLancamento}`
+      `${this.apiUrl}/${movimento.mes}/${movimento.ano}/${movimento.numeroLancamento}/${codigoProduto}/${codigoCosif}`
     );
   }
 }

@@ -20,6 +20,14 @@ public interface IMovimentoManualRepository
     int numeroLancamento,
     CancellationToken cancellationToken);
 
+    Task<MovimentoManual?> ObterPorChaveCompletaAsync(
+        short mes,
+        short ano,
+        int numeroLancamento,
+        string codigoProduto,
+        string codigoCosif,
+        CancellationToken cancellationToken);
+
     void Remover(MovimentoManual movimentoManual);
 
     Task<IReadOnlyCollection<MovimentoManualConsulta>> ListarMovimentosAsync(

@@ -3,4 +3,6 @@
 public sealed record ExcluirMovimentoManualRequest(
     short Mes,
     short Ano,
-    int NumeroLancamento);
+    int NumeroLancamento,
+    string CodigoProduto,
+    string CodigoCosif);

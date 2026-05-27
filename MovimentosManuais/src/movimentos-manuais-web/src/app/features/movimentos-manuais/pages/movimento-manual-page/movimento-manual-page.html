@@ -1,0 +1,158 @@
+<div class="container py-4">
+  <div class="card shadow-sm mb-4">
+    <div class="card-header bg-dark text-white">
+      <h4 class="mb-0">
+        <i class="fa-solid fa-file-invoice-dollar me-2"></i>
+        Movimentos Manuais
+      </h4>
+    </div>
+
+    <div class="card-body">
+      <form [formGroup]="form" (ngSubmit)="salvar()">
+        <div class="row g-3">
+          <div class="col-md-2">
+            <label class="form-label">Mês</label>
+            <input type="number" class="form-control" formControlName="mes">
+            <small class="text-danger" *ngIf="campoInvalido('mes')">
+              Informe um mês válido.
+            </small>
+          </div>
+
+          <div class="col-md-2">
+            <label class="form-label">Ano</label>
+            <input type="number" class="form-control" formControlName="ano">
+            <small class="text-danger" *ngIf="campoInvalido('ano')">
+              Informe um ano válido.
+            </small>
+          </div>
+
+          <div class="col-md-3">
+            <label class="form-label">Produto</label>
+            <select class="form-select" formControlName="codigoProduto">
+              <option value="">Selecione</option>
+              <option *ngFor="let produto of produtos" [value]="produto.codigoProduto">
+                {{ produto.codigoProduto }} - {{ produto.descricao }}
+              </option>
+            </select>
+            <small class="text-danger" *ngIf="campoInvalido('codigoProduto')">
+              Produto é obrigatório.
+            </small>
+          </div>
+
+          <div class="col-md-3">
+            <label class="form-label">COSIF</label>
+            <select class="form-select" formControlName="codigoCosif">
+              <option value="">Selecione</option>
+              <option *ngFor="let cosif of cosifs" [value]="cosif.codigoCosif">
+                {{ cosif.codigoCosif }} - {{ cosif.codigoClassificacao }}
+              </option>
+            </select>
+            <small class="text-danger" *ngIf="campoInvalido('codigoCosif')">
+              COSIF é obrigatório.
+            </small>
+          </div>
+
+          <div class="col-md-2">
+            <label class="form-label">Valor</label>
+            <input type="number" class="form-control" formControlName="valor">
+            <small class="text-danger" *ngIf="campoInvalido('valor')">
+              Informe um valor válido.
+            </small>
+          </div>
+
+          <div class="col-md-2" *ngIf="editando">
+            <label class="form-label">Nº Lançamento</label>
+            <input type="number" class="form-control" formControlName="numeroLancamento">
+          </div>
+
+          <div class="col-md-4">
+            <label class="form-label">Usuário</label>
+            <input type="text" class="form-control" formControlName="codigoUsuario">
+          </div>
+
+          <div class="col-md-12">
+            <label class="form-label">Descrição</label>
+            <textarea rows="3" class="form-control" formControlName="descricao"></textarea>
+            <small class="text-danger" *ngIf="campoInvalido('descricao')">
+              Descrição obrigatória com no máximo 50 caracteres.
+            </small>
+          </div>
+        </div>
+
+        <div class="mt-4 d-flex gap-2">
+          <button type="button" class="btn btn-secondary" (click)="novo()">
+            <i class="fa-solid fa-plus me-1"></i>
+            Novo
+          </button>
+
+          <button type="submit" class="btn btn-primary">
+            <i class="fa-solid fa-floppy-disk me-1"></i>
+            {{ editando ? 'Salvar alterações' : 'Incluir' }}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="card shadow-sm">
+    <div class="card-header bg-light">
+      <strong>Lista</strong>
+    </div>
+
+    <div class="card-body table-responsive">
+      <div *ngIf="carregando" class="alert alert-info">
+        Carregando movimentos...
+      </div>
+
+      <table class="table table-striped table-hover align-middle" *ngIf="!carregando">
+        <thead class="table-dark">
+          <tr>
+            <th>Mês</th>
+            <th>Ano</th>
+            <th>Produto</th>
+            <th>Descrição Produto</th>
+            <th>Nº Lançamento</th>
+            <th>COSIF</th>
+            <th>Descrição</th>
+            <th class="text-end">Valor</th>
+            <th class="text-center">Ações</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr *ngFor="let movimento of movimentos">
+            <td>{{ movimento.mes }}</td>
+            <td>{{ movimento.ano }}</td>
+            <td>{{ movimento.codigoProduto }}</td>
+            <td>{{ movimento.descricaoProduto }}</td>
+            <td>{{ movimento.numeroLancamento }}</td>
+            <td>{{ movimento.codigoCosif }}</td>
+            <td>{{ movimento.descricao }}</td>
+            <td class="text-end">
+              {{ movimento.valor | currency:'BRL':'symbol':'1.2-2' }}
+            </td>
+            <td class="text-center">
+              <button class="btn btn-sm btn-outline-primary me-2"
+                      type="button"
+                      (click)="selecionarParaEdicao(movimento)">
+                <i class="fa-solid fa-pen-to-square"></i>
+              </button>
+
+              <button class="btn btn-sm btn-outline-danger"
+                      type="button"
+                      (click)="excluir(movimento)">
+                <i class="fa-solid fa-trash"></i>
+              </button>
+            </td>
+          </tr>
+
+          <tr *ngIf="movimentos.length === 0">
+            <td colspan="9" class="text-center text-muted">
+              Nenhum movimento encontrado.
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,15 @@
+.card {
+  border-radius: 12px;
+}
+
+textarea {
+  resize: none;
+}
+
+.table th {
+  white-space: nowrap;
+}
+
+.btn {
+  min-width: 42px;
+}

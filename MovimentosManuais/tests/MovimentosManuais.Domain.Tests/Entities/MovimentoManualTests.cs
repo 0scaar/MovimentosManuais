@@ -25,7 +25,7 @@ public sealed class MovimentoManualTests
     [Theory]
     [InlineData(0)]
     [InlineData(13)]
-    public void Criar_DeveriaFalhar_QuandoMesForInvalido(decimal mes)
+    public void Criar_DeveriaFalhar_QuandoMesForInvalido(short mes)
     {
         var act = () => MovimentoManualBuilder.Novo()
             .ComMes(mes)

@@ -5,9 +5,9 @@ namespace MovimentosManuais.Domain.Entities;
 
 public sealed class MovimentoManual : Entity
 {
-    public decimal Mes { get; private set; }
-    public decimal Ano { get; private set; }
-    public decimal NumeroLancamento { get; private set; }
+    public short Mes { get; private set; }
+    public short Ano { get; private set; }
+    public int NumeroLancamento { get; private set; }
     public string CodigoProduto { get; private set; }
     public string CodigoCosif { get; private set; }
     public decimal Valor { get; private set; }
@@ -26,9 +26,9 @@ public sealed class MovimentoManual : Entity
     }
 
     public MovimentoManual(
-        decimal mes,
-        decimal ano,
-        decimal numeroLancamento,
+        short mes,
+        short ano,
+        int numeroLancamento,
         string codigoProduto,
         string codigoCosif,
         decimal valor,
@@ -50,9 +50,9 @@ public sealed class MovimentoManual : Entity
     }
 
     public static MovimentoManual Criar(
-        decimal mes,
-        decimal ano,
-        decimal numeroLancamento,
+        short mes,
+        short ano,
+        int numeroLancamento,
         string codigoProduto,
         string codigoCosif,
         decimal valor,
@@ -88,9 +88,9 @@ public sealed class MovimentoManual : Entity
     }
 
     private static void Validar(
-    decimal mes,
-    decimal ano,
-    decimal numeroLancamento,
+    short mes,
+    short ano,
+    int numeroLancamento,
     string codigoProduto,
     string codigoCosif,
     decimal valor,

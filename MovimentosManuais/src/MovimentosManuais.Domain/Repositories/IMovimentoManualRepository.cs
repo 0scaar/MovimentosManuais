@@ -5,9 +5,9 @@ namespace MovimentosManuais.Domain.Repositories;
 
 public interface IMovimentoManualRepository
 {
-    Task<decimal> ObterProximoNumeroLancamentoAsync(
-        decimal mes,
-        decimal ano,
+    Task<int> ObterProximoNumeroLancamentoAsync(
+        short mes,
+        short ano,
         CancellationToken cancellationToken);
 
     Task AdicionarAsync(
@@ -15,9 +15,9 @@ public interface IMovimentoManualRepository
         CancellationToken cancellationToken);
 
     Task<MovimentoManual?> ObterPorChaveAsync(
-    decimal mes,
-    decimal ano,
-    decimal numeroLancamento,
+    short mes,
+    short ano,
+    int numeroLancamento,
     CancellationToken cancellationToken);
 
     void Remover(MovimentoManual movimentoManual);

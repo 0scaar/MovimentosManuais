@@ -9,11 +9,11 @@ public sealed class CriarMovimentoManualRequestValidator
     public CriarMovimentoManualRequestValidator()
     {
         RuleFor(x => x.Mes)
-            .InclusiveBetween(1, 12)
+            .Must(m => m >= 1 && m <= 12)
             .WithMessage("O mês deve estar entre 1 e 12.");
 
         RuleFor(x => x.Ano)
-            .GreaterThanOrEqualTo(1900)
+            .Must(a => a >= 1900)
             .WithMessage("O ano informado é inválido.");
 
         RuleFor(x => x.CodigoProduto)

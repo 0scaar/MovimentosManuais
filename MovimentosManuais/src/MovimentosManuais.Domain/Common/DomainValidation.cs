@@ -20,13 +20,13 @@
                 throw new DomainException(message);
         }
 
-        public static void Between(decimal value, decimal minValue, decimal maxValue, string message)
+        public static void Between(short value, short minValue, short maxValue, string message)
         {
             if (value < minValue || value > maxValue)
                 throw new DomainException(message);
         }
 
-        public static void GreaterThanOrEqual(decimal value, decimal minValue, string message)
+        public static void GreaterThanOrEqual(short value, short minValue, string message)
         {
             if (value < minValue)
                 throw new DomainException(message);

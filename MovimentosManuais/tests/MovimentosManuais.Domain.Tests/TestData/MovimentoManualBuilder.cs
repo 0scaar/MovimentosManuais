@@ -4,9 +4,9 @@ namespace MovimentosManuais.Domain.Tests.TestData;
 
 public sealed class MovimentoManualBuilder
 {
-    private decimal _mes = 5;
-    private decimal _ano = 2026;
-    private decimal _numeroLancamento = 1;
+    private short _mes = 5;
+    private short _ano = 2026;
+    private int _numeroLancamento = 1;
     private string _codigoProduto = "0001";
     private string _codigoCosif = "12345678901";
     private decimal _valor = 100;
@@ -18,19 +18,19 @@ public sealed class MovimentoManualBuilder
         return new MovimentoManualBuilder();
     }
 
-    public MovimentoManualBuilder ComMes(decimal mes)
+    public MovimentoManualBuilder ComMes(short mes)
     {
         _mes = mes;
         return this;
     }
 
-    public MovimentoManualBuilder ComAno(decimal ano)
+    public MovimentoManualBuilder ComAno(short ano)
     {
         _ano = ano;
         return this;
     }
 
-    public MovimentoManualBuilder ComNumeroLancamento(decimal numeroLancamento)
+    public MovimentoManualBuilder ComNumeroLancamento(int numeroLancamento)
     {
         _numeroLancamento = numeroLancamento;
         return this;

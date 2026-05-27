@@ -1,4 +1,4 @@
-A solução back-end segue uma arquitetura clean:
+Os projetos back-end segue uma arquitetura clean com .net 8 e o projeto front-end Angular: 21.2.x:
 
 MovimentosManuais.Api
 - API ASP.NET Core, controllers, Swagger, middlewares, CORS e startup da aplicação.

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { finalize } from 'rxjs';
 import Swal from 'sweetalert2';
@@ -41,7 +41,8 @@ export class MovimentoManualPage implements OnInit {
     private readonly fb: FormBuilder,
     private readonly produtoService: ProdutoService,
     private readonly produtoCosifService: ProdutoCosifService,
-    private readonly movimentoManualService: MovimentoManualService
+    private readonly movimentoManualService: MovimentoManualService,
+    private readonly changeDetectorRef: ChangeDetectorRef
   ) { }
 
   ngOnInit(): void {
@@ -167,12 +168,19 @@ export class MovimentoManualPage implements OnInit {
     this.erroProdutos = '';
 
     this.produtoService.listarAtivos()
-      .pipe(finalize(() => this.carregandoProdutos = false))
+      .pipe(finalize(() => {
+        this.carregandoProdutos = false;
+        this.atualizarTela();
+      }))
       .subscribe({
-        next: produtos => this.produtos = produtos,
+        next: produtos => {
+          this.produtos = produtos;
+          this.atualizarTela();
+        },
         error: error => {
           this.produtos = [];
           this.erroProdutos = this.obterMensagemErro(error);
+          this.atualizarTela();
         }
       });
   }
@@ -182,12 +190,19 @@ export class MovimentoManualPage implements OnInit {
     this.erroCosifs = '';
 
     this.produtoCosifService.listarPorProduto(codigoProduto)
-      .pipe(finalize(() => this.carregandoCosifs = false))
+      .pipe(finalize(() => {
+        this.carregandoCosifs = false;
+        this.atualizarTela();
+      }))
       .subscribe({
-        next: cosifs => this.cosifs = cosifs,
+        next: cosifs => {
+          this.cosifs = cosifs;
+          this.atualizarTela();
+        },
         error: error => {
           this.cosifs = [];
           this.erroCosifs = this.obterMensagemErro(error);
+          this.atualizarTela();
         }
       });
   }
@@ -197,12 +212,19 @@ export class MovimentoManualPage implements OnInit {
     this.erroMovimentos = '';
 
     this.movimentoManualService.listar()
-      .pipe(finalize(() => this.carregando = false))
+      .pipe(finalize(() => {
+        this.carregando = false;
+        this.atualizarTela();
+      }))
       .subscribe({
-        next: movimentos => this.movimentos = movimentos,
+        next: movimentos => {
+          this.movimentos = movimentos;
+          this.atualizarTela();
+        },
         error: error => {
           this.movimentos = [];
           this.erroMovimentos = this.obterMensagemErro(error);
+          this.atualizarTela();
         }
       });
   }
@@ -260,5 +282,9 @@ export class MovimentoManualPage implements OnInit {
     return error?.error?.message ||
       error?.error?.errors?.join('<br>') ||
       'Erro inesperado.';
+  }
+
+  private atualizarTela(): void {
+    this.changeDetectorRef.detectChanges();
   }
 }

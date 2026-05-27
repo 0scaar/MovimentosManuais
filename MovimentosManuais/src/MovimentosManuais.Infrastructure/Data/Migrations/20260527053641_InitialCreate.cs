@@ -15,9 +15,9 @@ namespace MovimentosManuais.Infrastructure.Data.Migrations
                 name: "PRODUTO",
                 columns: table => new
                 {
-                    COD_PRODUTO = table.Column<string>(type: "nvarchar(4)", maxLength: 4, nullable: false),
-                    DES_PRODUTO = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: true),
-                    STA_STATUS = table.Column<string>(type: "nvarchar(1)", maxLength: 1, nullable: true)
+                    COD_PRODUTO = table.Column<string>(type: "char(4)", maxLength: 4, nullable: false),
+                    DES_PRODUTO = table.Column<string>(type: "varchar(30)", maxLength: 30, nullable: true),
+                    STA_STATUS = table.Column<string>(type: "char(1)", maxLength: 1, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -28,10 +28,10 @@ namespace MovimentosManuais.Infrastructure.Data.Migrations
                 name: "PRODUTO_COSIF",
                 columns: table => new
                 {
-                    COD_PRODUTO = table.Column<string>(type: "nvarchar(4)", maxLength: 4, nullable: false),
-                    COD_COSIF = table.Column<string>(type: "nvarchar(11)", maxLength: 11, nullable: false),
-                    COD_CLASSIFICACAO = table.Column<string>(type: "nvarchar(6)", maxLength: 6, nullable: true),
-                    STA_STATUS = table.Column<string>(type: "nvarchar(1)", maxLength: 1, nullable: true)
+                    COD_PRODUTO = table.Column<string>(type: "char(4)", maxLength: 4, nullable: false),
+                    COD_COSIF = table.Column<string>(type: "varchar(11)", maxLength: 11, nullable: false),
+                    COD_CLASSIFICACAO = table.Column<string>(type: "char(6)", maxLength: 6, nullable: true),
+                    STA_STATUS = table.Column<string>(type: "char(1)", maxLength: 1, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -51,12 +51,12 @@ namespace MovimentosManuais.Infrastructure.Data.Migrations
                     DAT_MES = table.Column<short>(type: "smallint", precision: 2, scale: 0, nullable: false),
                     DAT_ANO = table.Column<short>(type: "smallint", precision: 4, scale: 0, nullable: false),
                     NUM_LANCAMENTO = table.Column<int>(type: "int", precision: 18, scale: 0, nullable: false),
-                    COD_PRODUTO = table.Column<string>(type: "nvarchar(4)", maxLength: 4, nullable: false),
-                    COD_COSIF = table.Column<string>(type: "nvarchar(11)", maxLength: 11, nullable: false),
+                    COD_PRODUTO = table.Column<string>(type: "char(4)", maxLength: 4, nullable: false),
+                    COD_COSIF = table.Column<string>(type: "varchar(11)", maxLength: 11, nullable: false),
                     VAL_VALOR = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false),
-                    DES_DESCRICAO = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    DES_DESCRICAO = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: false),
                     DAT_MOVIMENTO = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    COD_USUARIO = table.Column<string>(type: "nvarchar(15)", maxLength: 15, nullable: false)
+                    COD_USUARIO = table.Column<string>(type: "varchar(15)", maxLength: 15, nullable: false)
                 },
                 constraints: table =>
                 {

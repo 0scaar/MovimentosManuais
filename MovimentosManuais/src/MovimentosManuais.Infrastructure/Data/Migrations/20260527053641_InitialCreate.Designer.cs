@@ -12,7 +12,7 @@ using MovimentosManuais.Infrastructure.Data;
 namespace MovimentosManuais.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260527042649_InitialCreate")]
+    [Migration("20260527053641_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -44,18 +44,18 @@ namespace MovimentosManuais.Infrastructure.Data.Migrations
 
                     b.Property<string>("CodigoProduto")
                         .HasMaxLength(4)
-                        .HasColumnType("nvarchar(4)")
+                        .HasColumnType("char(4)")
                         .HasColumnName("COD_PRODUTO");
 
                     b.Property<string>("CodigoCosif")
                         .HasMaxLength(11)
-                        .HasColumnType("nvarchar(11)")
+                        .HasColumnType("varchar(11)")
                         .HasColumnName("COD_COSIF");
 
                     b.Property<string>("CodigoUsuario")
                         .IsRequired()
                         .HasMaxLength(15)
-                        .HasColumnType("nvarchar(15)")
+                        .HasColumnType("varchar(15)")
                         .HasColumnName("COD_USUARIO");
 
                     b.Property<DateTime>("DataMovimento")
@@ -65,7 +65,7 @@ namespace MovimentosManuais.Infrastructure.Data.Migrations
                     b.Property<string>("Descricao")
                         .IsRequired()
                         .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)")
+                        .HasColumnType("varchar(50)")
                         .HasColumnName("DES_DESCRICAO");
 
                     b.Property<decimal>("Valor")
@@ -84,17 +84,17 @@ namespace MovimentosManuais.Infrastructure.Data.Migrations
                 {
                     b.Property<string>("CodigoProduto")
                         .HasMaxLength(4)
-                        .HasColumnType("nvarchar(4)")
+                        .HasColumnType("char(4)")
                         .HasColumnName("COD_PRODUTO");
 
                     b.Property<string>("Descricao")
                         .HasMaxLength(30)
-                        .HasColumnType("nvarchar(30)")
+                        .HasColumnType("varchar(30)")
                         .HasColumnName("DES_PRODUTO");
 
                     b.Property<string>("Status")
                         .HasMaxLength(1)
-                        .HasColumnType("nvarchar(1)")
+                        .HasColumnType("char(1)")
                         .HasColumnName("STA_STATUS");
 
                     b.HasKey("CodigoProduto");
@@ -106,22 +106,22 @@ namespace MovimentosManuais.Infrastructure.Data.Migrations
                 {
                     b.Property<string>("CodigoProduto")
                         .HasMaxLength(4)
-                        .HasColumnType("nvarchar(4)")
+                        .HasColumnType("char(4)")
                         .HasColumnName("COD_PRODUTO");
 
                     b.Property<string>("CodigoCosif")
                         .HasMaxLength(11)
-                        .HasColumnType("nvarchar(11)")
+                        .HasColumnType("varchar(11)")
                         .HasColumnName("COD_COSIF");
 
                     b.Property<string>("CodigoClassificacao")
                         .HasMaxLength(6)
-                        .HasColumnType("nvarchar(6)")
+                        .HasColumnType("char(6)")
                         .HasColumnName("COD_CLASSIFICACAO");
 
                     b.Property<string>("Status")
                         .HasMaxLength(1)
-                        .HasColumnType("nvarchar(1)")
+                        .HasColumnType("char(1)")
                         .HasColumnName("STA_STATUS");
 
                     b.HasKey("CodigoProduto", "CodigoCosif");

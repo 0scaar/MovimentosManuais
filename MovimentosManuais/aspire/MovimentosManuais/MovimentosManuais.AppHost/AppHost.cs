@@ -34,9 +34,7 @@ builder
         "../../../src/movimentos-manuais-web")
     .WithReference(api)
     .WaitFor(api)
-    .WithHttpEndpoint(
-        env: "PORT",
-        port: 4200)
+    .WithHttpEndpoint(env: "PORT")
     .WithExternalHttpEndpoints();
 
 builder.Build().Run();

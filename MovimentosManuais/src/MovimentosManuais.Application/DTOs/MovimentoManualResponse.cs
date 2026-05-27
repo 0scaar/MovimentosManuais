@@ -1,9 +1,9 @@
 ﻿namespace MovimentosManuais.Application.DTOs;
 
 public sealed record MovimentoManualResponse(
-    decimal Mes,
-    decimal Ano,
-    decimal NumeroLancamento,
+    short Mes,
+    short Ano,
+    int NumeroLancamento,
     string CodigoProduto,
     string? DescricaoProduto,
     string CodigoCosif,

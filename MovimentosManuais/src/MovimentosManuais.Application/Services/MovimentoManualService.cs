@@ -84,44 +84,54 @@ public sealed class MovimentoManualService : IMovimentoManualService
     EditarMovimentoManualRequest request,
     CancellationToken cancellationToken)
     {
-        var movimentoManual = await _movimentoManualRepository.ObterPorChaveAsync(
+        try
+        {
+            var movimentoManual = await _movimentoManualRepository.ObterPorChaveAsync(
             request.Mes,
             request.Ano,
             request.NumeroLancamento,
             cancellationToken);
 
-        if (movimentoManual is null)
-            throw new DomainException("Movimento manual não encontrado.");
+            if (movimentoManual is null)
+                throw new DomainException("Movimento manual não encontrado.");
 
-        var produtoCosifExiste = await _produtoCosifRepository.ExisteAsync(
-            request.CodigoProduto,
-            request.CodigoCosif,
-            cancellationToken);
+            var produtoCosifExiste = await _produtoCosifRepository.ExisteAsync(
+                request.CodigoProduto,
+                request.CodigoCosif,
+                cancellationToken);
 
-        if (!produtoCosifExiste)
-            throw new DomainException("Produto COSIF não encontrado.");
+            if (!produtoCosifExiste)
+                throw new DomainException("Produto COSIF não encontrado.");
 
-        movimentoManual.Editar(
-            request.CodigoProduto,
-            request.CodigoCosif,
-            request.Valor,
-            request.Descricao,
-            request.CodigoUsuario);
+            movimentoManual.Editar(
+                request.CodigoProduto,
+                request.CodigoCosif,
+                request.Valor,
+                request.Descricao,
+                request.CodigoUsuario);
 
-        await _unitOfWork.SaveChangesAsync(cancellationToken);
+            await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-        return new MovimentoManualResponse(
-            movimentoManual.Mes,
-            movimentoManual.Ano,
-            movimentoManual.NumeroLancamento,
-            movimentoManual.CodigoProduto,
-            null,
-            movimentoManual.CodigoCosif,
-            null,
-            movimentoManual.Valor,
-            movimentoManual.Descricao,
-            movimentoManual.DataMovimento,
-            movimentoManual.CodigoUsuario);
+            return new MovimentoManualResponse(
+                movimentoManual.Mes,
+                movimentoManual.Ano,
+                movimentoManual.NumeroLancamento,
+                movimentoManual.CodigoProduto,
+                null,
+                movimentoManual.CodigoCosif,
+                null,
+                movimentoManual.Valor,
+                movimentoManual.Descricao,
+                movimentoManual.DataMovimento,
+                movimentoManual.CodigoUsuario);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Erro: {ex.Message}");
+            Console.WriteLine($"StackTrace: {ex.StackTrace}");
+            return default;
+        }
+        
     }
 
     public async Task ExcluirAsync(

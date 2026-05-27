@@ -74,8 +74,10 @@ public sealed class MovimentoManualRepository : IMovimentoManualRepository
         await using var connection = new SqlConnection(_connectionString);
 
         var movimentos = await connection.QueryAsync<MovimentoManualConsulta>(
-            sql: "sp_MovimentoManual_Listar",
-            commandType: CommandType.StoredProcedure);
+            new CommandDefinition(
+                commandText: "sp_MovimentoManual_Listar",
+                commandType: CommandType.StoredProcedure,
+                cancellationToken: cancellationToken));
 
         return movimentos.ToList();
     }

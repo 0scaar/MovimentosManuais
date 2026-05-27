@@ -1,9 +1,9 @@
 ﻿namespace MovimentosManuais.Domain.ReadModels;
 
 public sealed record MovimentoManualConsulta(
-    decimal Mes,
-    decimal Ano,
-    decimal NumeroLancamento,
+    short Mes,
+    short Ano,
+    int NumeroLancamento,
     string CodigoProduto,
     string? DescricaoProduto,
     string CodigoCosif,

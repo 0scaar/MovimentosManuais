@@ -9,6 +9,12 @@
     <Project Path="src/MovimentosManuais.Domain/MovimentosManuais.Domain.csproj" />
     <Project Path="src/MovimentosManuais.Infrastructure/MovimentosManuais.Infrastructure.csproj" />
   </Folder>
+  <Folder Name="/src/Frontend/">
+    <Project Path="src/movimentos-manuais-web/movimentos-manuais-web.esproj">
+      <Build />
+      <Deploy />
+    </Project>
+  </Folder>
   <Folder Name="/src/Services/">
     <Project Path="src/MovimentosManuais.Api/MovimentosManuais.Api.csproj" />
   </Folder>

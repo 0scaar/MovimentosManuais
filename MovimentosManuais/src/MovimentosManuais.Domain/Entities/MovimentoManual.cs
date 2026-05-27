@@ -1,4 +1,5 @@
 ﻿using MovimentosManuais.Domain.Common;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace MovimentosManuais.Domain.Entities;
 
@@ -68,6 +69,22 @@ public sealed class MovimentoManual : Entity
             descricao,
             DateTime.Now,
             codigoUsuario);
+    }
+
+    public void Editar(
+    string codigoProduto,
+    string codigoCosif,
+    decimal valor,
+    string descricao,
+    string codigoUsuario)
+    {
+        Validar(Mes, Ano, NumeroLancamento, codigoProduto, codigoCosif, valor, descricao, codigoUsuario);
+
+        CodigoProduto = codigoProduto;
+        CodigoCosif = codigoCosif;
+        Valor = valor;
+        Descricao = descricao;
+        CodigoUsuario = codigoUsuario;
     }
 
     private static void Validar(

@@ -20,7 +20,11 @@ public sealed class MovimentoManualRepository : IMovimentoManualRepository
         IConfiguration configuration)
     {
         _context = context;
-        _connectionString = configuration.GetConnectionString("DefaultConnection");
+        _connectionString =
+            configuration.GetConnectionString("MovimentosManuaisDb")
+            ?? configuration.GetConnectionString("DefaultConnection")
+            ?? throw new InvalidOperationException(
+                "Connection string 'MovimentosManuaisDb' was not found.");
     }
 
     public async Task<int> ObterProximoNumeroLancamentoAsync(

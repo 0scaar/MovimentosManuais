@@ -37,11 +37,13 @@ public sealed class MovimentoManualConfiguration : IEntityTypeConfiguration<Movi
         builder.Property(x => x.CodigoProduto)
             .HasColumnName("COD_PRODUTO")
             .HasMaxLength(4)
+            .HasColumnType("char(4)")
             .IsRequired();
 
         builder.Property(x => x.CodigoCosif)
             .HasColumnName("COD_COSIF")
             .HasMaxLength(11)
+            .HasColumnType("varchar(11)")
             .IsRequired();
 
         builder.Property(x => x.Valor)
@@ -52,6 +54,7 @@ public sealed class MovimentoManualConfiguration : IEntityTypeConfiguration<Movi
         builder.Property(x => x.Descricao)
             .HasColumnName("DES_DESCRICAO")
             .HasMaxLength(50)
+            .HasColumnType("varchar(50)")
             .IsRequired();
 
         builder.Property(x => x.DataMovimento)
@@ -61,6 +64,7 @@ public sealed class MovimentoManualConfiguration : IEntityTypeConfiguration<Movi
         builder.Property(x => x.CodigoUsuario)
             .HasColumnName("COD_USUARIO")
             .HasMaxLength(15)
+            .HasColumnType("varchar(15)")
             .IsRequired();
 
         builder.HasOne(x => x.ProdutoCosif)

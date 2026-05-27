@@ -4,7 +4,7 @@ using MovimentosManuais.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+builder.AddServiceDefaults();
 
 builder.Services.AddControllers();
 
@@ -44,5 +44,7 @@ app.UseCors("AngularApp");
 //app.UseAuthorization();
 
 app.MapControllers();
+
+app.MapDefaultEndpoints();
 
 app.Run();

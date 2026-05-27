@@ -16,15 +16,18 @@ public sealed class ProdutoConfiguration : IEntityTypeConfiguration<Produto>
         builder.Property(x => x.CodigoProduto)
             .HasColumnName("COD_PRODUTO")
             .HasMaxLength(4)
+            .HasColumnType("char(4)")
             .IsRequired();
 
         builder.Property(x => x.Descricao)
             .HasColumnName("DES_PRODUTO")
-            .HasMaxLength(30);
+            .HasMaxLength(30)
+            .HasColumnType("varchar(30)");
 
         builder.Property(x => x.Status)
             .HasColumnName("STA_STATUS")
             .HasMaxLength(1)
+            .HasColumnType("char(1)")
             .HasConversion(
                 status => status.HasValue ? ((char)status.Value).ToString() : null,
                 value => string.IsNullOrWhiteSpace(value)

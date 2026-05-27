@@ -20,20 +20,24 @@ public sealed class ProdutoCosifConfiguration : IEntityTypeConfiguration<Produto
         builder.Property(x => x.CodigoProduto)
             .HasColumnName("COD_PRODUTO")
             .HasMaxLength(4)
+            .HasColumnType("char(4)")
             .IsRequired();
 
         builder.Property(x => x.CodigoCosif)
             .HasColumnName("COD_COSIF")
             .HasMaxLength(11)
+            .HasColumnType("varchar(11)")
             .IsRequired();
 
         builder.Property(x => x.CodigoClassificacao)
             .HasColumnName("COD_CLASSIFICACAO")
-            .HasMaxLength(6);
+            .HasMaxLength(6)
+            .HasColumnType("char(6)");
 
         builder.Property(x => x.Status)
             .HasColumnName("STA_STATUS")
             .HasMaxLength(1)
+            .HasColumnType("char(1)")
             .HasConversion(
                 status => status.HasValue ? ((char)status.Value).ToString() : null,
                 value => string.IsNullOrWhiteSpace(value)

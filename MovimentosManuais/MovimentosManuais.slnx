@@ -1,4 +1,8 @@
 <Solution>
+  <Folder Name="/Aspire/">
+    <Project Path="aspire/MovimentosManuais/MovimentosManuais.AppHost/MovimentosManuais.AppHost.csproj" />
+    <Project Path="aspire/MovimentosManuais/MovimentosManuais.ServiceDefaults/MovimentosManuais.ServiceDefaults.csproj" />
+  </Folder>
   <Folder Name="/src/" />
   <Folder Name="/src/Core/">
     <Project Path="src/MovimentosManuais.Application/MovimentosManuais.Application.csproj" />

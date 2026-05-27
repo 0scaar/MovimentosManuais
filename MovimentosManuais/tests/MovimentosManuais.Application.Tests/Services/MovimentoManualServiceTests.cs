@@ -15,6 +15,7 @@ namespace MovimentosManuais.Application.Tests.Services;
 public sealed class MovimentoManualServiceTests
 {
     private readonly Mock<IMovimentoManualRepository> _movimentoManualRepositoryMock = new();
+    private readonly Mock<IMovimentoManualConsultaRepository> _movimentoManualConsultaRepositoryMock = new();
     private readonly Mock<IProdutoCosifRepository> _produtoCosifRepositoryMock = new();
     private readonly Mock<IUnitOfWork> _unitOfWorkMock = new();
 
@@ -25,6 +26,7 @@ public sealed class MovimentoManualServiceTests
     {
         return new MovimentoManualService(
             _movimentoManualRepositoryMock.Object,
+            _movimentoManualConsultaRepositoryMock.Object,
             _produtoCosifRepositoryMock.Object,
             _unitOfWorkMock.Object,
             _validator);

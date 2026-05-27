@@ -1,30 +1,17 @@
-﻿using Dapper;
-using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using MovimentosManuais.Domain.Entities;
-using MovimentosManuais.Domain.ReadModels;
 using MovimentosManuais.Domain.Repositories;
 using MovimentosManuais.Infrastructure.Data;
-using System.Data;
 
 namespace MovimentosManuais.Infrastructure.Repositories;
 
 public sealed class MovimentoManualRepository : IMovimentoManualRepository
 {
     private readonly AppDbContext _context;
-    private readonly string _connectionString;
 
-    public MovimentoManualRepository(
-        AppDbContext context,
-        IConfiguration configuration)
+    public MovimentoManualRepository(AppDbContext context)
     {
         _context = context;
-        _connectionString =
-            configuration.GetConnectionString("MovimentosManuaisDb")
-            ?? configuration.GetConnectionString("DefaultConnection")
-            ?? throw new InvalidOperationException(
-                "Connection string 'MovimentosManuaisDb' was not found.");
     }
 
     public async Task<int> ObterProximoNumeroLancamentoAsync(
@@ -84,19 +71,5 @@ public sealed class MovimentoManualRepository : IMovimentoManualRepository
     public void Remover(MovimentoManual movimentoManual)
     {
         _context.MovimentosManuais.Remove(movimentoManual);
-    }
-
-    public async Task<IReadOnlyCollection<MovimentoManualConsulta>> ListarMovimentosAsync(
-        CancellationToken cancellationToken)
-    {
-        await using var connection = new SqlConnection(_connectionString);
-
-        var movimentos = await connection.QueryAsync<MovimentoManualConsulta>(
-            new CommandDefinition(
-                commandText: "sp_MovimentoManual_Listar",
-                commandType: CommandType.StoredProcedure,
-                cancellationToken: cancellationToken));
-
-        return movimentos.ToList();
     }
 }

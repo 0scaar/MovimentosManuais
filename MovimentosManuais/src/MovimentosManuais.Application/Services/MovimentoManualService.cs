@@ -11,17 +11,20 @@ namespace MovimentosManuais.Application.Services;
 public sealed class MovimentoManualService : IMovimentoManualService
 {
     private readonly IMovimentoManualRepository _movimentoManualRepository;
+    private readonly IMovimentoManualConsultaRepository _movimentoManualConsultaRepository;
     private readonly IProdutoCosifRepository _produtoCosifRepository;
     private readonly IUnitOfWork _unitOfWork;
     private readonly IValidator<CriarMovimentoManualRequest> _validator;
 
     public MovimentoManualService(
         IMovimentoManualRepository movimentoManualRepository,
+        IMovimentoManualConsultaRepository movimentoManualConsultaRepository,
         IProdutoCosifRepository produtoCosifRepository,
         IUnitOfWork unitOfWork,
         IValidator<CriarMovimentoManualRequest> validator)
     {
         _movimentoManualRepository = movimentoManualRepository;
+        _movimentoManualConsultaRepository = movimentoManualConsultaRepository;
         _produtoCosifRepository = produtoCosifRepository;
         _unitOfWork = unitOfWork;
         _validator = validator;
@@ -144,7 +147,7 @@ public sealed class MovimentoManualService : IMovimentoManualService
     public async Task<IReadOnlyCollection<MovimentoManualResponse>> ListarAsync(
         CancellationToken cancellationToken)
     {
-        var movimentos = await _movimentoManualRepository.ListarMovimentosAsync(
+        var movimentos = await _movimentoManualConsultaRepository.ListarMovimentosAsync(
             cancellationToken);
 
         return movimentos

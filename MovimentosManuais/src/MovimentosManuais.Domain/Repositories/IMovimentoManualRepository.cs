@@ -1,6 +1,4 @@
 ﻿using MovimentosManuais.Domain.Entities;
-using MovimentosManuais.Domain.ReadModels;
-
 namespace MovimentosManuais.Domain.Repositories;
 
 public interface IMovimentoManualRepository
@@ -29,7 +27,4 @@ public interface IMovimentoManualRepository
         CancellationToken cancellationToken);
 
     void Remover(MovimentoManual movimentoManual);
-
-    Task<IReadOnlyCollection<MovimentoManualConsulta>> ListarMovimentosAsync(
-        CancellationToken cancellationToken);
 }

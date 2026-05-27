@@ -34,6 +34,7 @@ public static class DependencyInjection
         services.AddScoped<IProdutoRepository, ProdutoRepository>();
         services.AddScoped<IProdutoCosifRepository, ProdutoCosifRepository>();
         services.AddScoped<IMovimentoManualRepository, MovimentoManualRepository>();
+        services.AddScoped<IMovimentoManualConsultaRepository, MovimentoManualConsultaRepository>();
 
         return services;
     }
